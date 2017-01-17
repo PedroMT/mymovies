@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MyMovies</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="title_activity_my_list">MyListActivity</string>
+</resources>
