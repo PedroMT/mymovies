@@ -3,6 +3,7 @@ package br.com.pmtsouza.mymovies.requests;
 import android.content.Context;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import br.com.pmtsouza.mymovies.Constants;
 import br.com.pmtsouza.mymovies.utils.CookieHandler;
@@ -11,6 +12,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import br.com.pmtsouza.mymovies.R;
+import okhttp3.ResponseBody;
+
 /**
  * Created by Pedro M. on 17/01/2017.
  */
@@ -18,9 +22,14 @@ import okhttp3.Response;
 public class MovieRequest {
 
     public static String search(Context context, String title, int page){
+
+        ResponseBody body = null;
+
         try{
             OkHttpClient client = new OkHttpClient.Builder()
                     .cookieJar(new CookieHandler(context))
+                    .connectTimeout(30, TimeUnit.SECONDS)
+                    .readTimeout(30, TimeUnit.SECONDS)
                     .build();
 
             HttpUrl url;
@@ -51,21 +60,32 @@ public class MovieRequest {
             Response response = client.newCall(request).execute();
 
             if(response.code() == 200){
-                return response.body().string();
+                body = response.body();
+                return body.toString();
+            }else if(response.code() == 503) {
+                return context.getResources().getString(R.string.snackbar_connectionfailure_error);
             }else{
-                return "Falha na conexão";
+                return context.getResources().getString(R.string.snackbar_serviceunavailable_error);
             }
 
         } catch (IOException e) {
             e.printStackTrace();
-            return "Falha na conexão.";
+            return context.getResources().getString(R.string.snackbar_connectionfailure_error);
+        }finally {
+            if(body != null)
+                body.close();
         }
     }
 
     public static String get(Context context, String imdbId){
+
+        ResponseBody body = null;
+
         try{
             OkHttpClient client = new OkHttpClient.Builder()
                     .cookieJar(new CookieHandler(context))
+                    .connectTimeout(30, TimeUnit.SECONDS)
+                    .readTimeout(30, TimeUnit.SECONDS)
                     .build();
 
             HttpUrl url = new HttpUrl.Builder()
@@ -73,7 +93,6 @@ public class MovieRequest {
                     .host(Constants.API_URL)
                     .addQueryParameter("i", imdbId)
                     .build();
-
 
             Request request = new Request.Builder()
                     .url(url)
@@ -84,14 +103,20 @@ public class MovieRequest {
             Response response = client.newCall(request).execute();
 
             if(response.code() == 200){
-                return response.body().string();
+                body = response.body();
+                return body.toString();
+            }else if(response.code() == 503) {
+                return context.getResources().getString(R.string.snackbar_connectionfailure_error);
             }else{
-                return "Falha na conexão";
+                return context.getResources().getString(R.string.snackbar_serviceunavailable_error);
             }
 
         } catch (IOException e) {
             e.printStackTrace();
-            return "Falha na conexão.";
+            return context.getResources().getString(R.string.snackbar_connectionfailure_error);
+        }finally {
+            if(body != null)
+                body.close();
         }
     }
 }

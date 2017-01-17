@@ -40,6 +40,13 @@ public class MyListActivity extends AppCompatActivity implements MovieAdapter.Li
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if(mAdapter != null)
+            mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mylist);
@@ -50,7 +57,7 @@ public class MyListActivity extends AppCompatActivity implements MovieAdapter.Li
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeButtonEnabled(true);
-            actionBar.setTitle("Minha Lista");
+            actionBar.setTitle(getResources().getString(R.string.mylist_title));
         }
 
         ButterKnife.bind(this);
@@ -100,6 +107,15 @@ public class MyListActivity extends AppCompatActivity implements MovieAdapter.Li
     public void onClick(Movie movie) {
         Intent intent = new Intent(mContext, MovieDetailsActivity.class);
         intent.putExtra("imdbID", movie.getImdbID());
-        startActivity(intent);
+        startActivityForResult(intent, 1000);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == 1010 && requestCode == 1000){
+            mAdapter.notifyDataSetChanged();
+        }
     }
 }

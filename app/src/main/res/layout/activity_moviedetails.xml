@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="@android:color/darker_gray"
     tools:context="br.com.pmtsouza.mymovies.activities.MovieDetailsActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -32,6 +33,7 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
+        android:background="@drawable/background"
         android:orientation="vertical">
 
         <TextView
@@ -39,28 +41,39 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Placeholder"
+            android:text="@string/general_placeholder"
+            android:textColor="@color/white"
+            android:shadowColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <ImageView
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/movie_poster"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:layout_marginBottom="32dp"
-            android:layout_marginTop="32dp" />
+            android:layout_marginTop="32dp"
+            android:layout_gravity="center_horizontal"
+            android:padding="2dp">
+        <ImageView
+            android:id="@+id/movie_poster"
+            android:layout_width="150dp"
+            android:layout_height="225dp"
+            android:contentDescription="@string/moviedetails_poster_hint" />
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="@color/white_alpha">
 
             <TextView
                 android:id="@+id/movie_year_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:text="Ano: "
+                android:text="@string/moviedetails_year"
                 android:textStyle="bold" />
 
             <TextView
@@ -69,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/movie_year_title"
                 android:layout_toEndOf="@+id/movie_year_title"
-                android:text="1900" />
+                android:text="@string/general_placeholder" />
 
             <TextView
                 android:id="@+id/movie_rated_title"
@@ -77,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/movie_year_title"
                 android:layout_marginBottom="5dp"
-                android:text="Classificação: "
+                android:text="@string/moviedetails_rated"
                 android:textStyle="bold" />
 
             <TextView
@@ -86,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/movie_rated_title"
                 android:layout_toEndOf="@+id/movie_rated_title"
-                android:text="PG-13" />
+                android:text="@string/general_placeholder" />
 
             <TextView
                 android:id="@+id/movie_released_title"
@@ -94,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/movie_rated_title"
                 android:layout_marginBottom="5dp"
-                android:text="Lançamento: "
+                android:text="@string/moviedetails_released"
                 android:textStyle="bold" />
 
             <TextView
@@ -103,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/movie_released_title"
                 android:layout_toEndOf="@+id/movie_released_title"
-                android:text="PG-13" />
+                android:text="@string/general_placeholder" />
 
             <TextView
                 android:id="@+id/movie_runtime_title"
@@ -111,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/movie_released_title"
                 android:layout_marginBottom="5dp"
-                android:text="Duração: "
+                android:text="@string/moviedetails_runtime"
                 android:textStyle="bold" />
 
             <TextView
@@ -120,14 +133,14 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/movie_runtime_title"
                 android:layout_toEndOf="@+id/movie_runtime_title"
-                android:text="PG-13" />
+                android:text="@string/general_placeholder" />
 
             <TextView
                 android:id="@+id/movie_genre_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/movie_runtime_title"
-                android:text="Gênero(s): "
+                android:text="@string/moviedetails_genre"
                 android:textStyle="bold" />
 
             <TextView
@@ -137,7 +150,7 @@
                 android:layout_alignBaseline="@+id/movie_genre_title"
                 android:layout_toEndOf="@+id/movie_genre_title"
                 android:layout_marginBottom="5dp"
-                android:text="PG-13" />
+                android:text="@string/general_placeholder" />
 
             <TextView
                 android:id="@+id/movie_director_title"
@@ -145,7 +158,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/movie_genre_value"
                 android:layout_marginBottom="5dp"
-                android:text="Diretor: "
+                android:text="@string/moviedetails_director"
                 android:textStyle="bold" />
 
             <TextView
@@ -154,14 +167,14 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/movie_director_title"
                 android:layout_toEndOf="@+id/movie_director_title"
-                android:text="PG-13" />
+                android:text="@string/general_placeholder" />
 
             <TextView
                 android:id="@+id/movie_writer_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/movie_director_title"
-                android:text="Escritor(es): "
+                android:text="@string/moviedetails_writer"
                 android:textStyle="bold" />
 
             <TextView
@@ -171,14 +184,14 @@
                 android:layout_alignBaseline="@+id/movie_writer_title"
                 android:layout_toEndOf="@+id/movie_writer_title"
                 android:layout_marginBottom="5dp"
-                android:text="PG-13" />
+                android:text="@string/general_placeholder" />
 
             <TextView
                 android:id="@+id/movie_actors_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/movie_writer_value"
-                android:text="Atores: "
+                android:text="@string/moviedetails_actors"
                 android:textStyle="bold" />
 
             <TextView
@@ -188,7 +201,7 @@
                 android:layout_alignBaseline="@+id/movie_actors_title"
                 android:layout_toEndOf="@+id/movie_actors_title"
                 android:layout_marginBottom="5dp"
-                android:text="PG-13" />
+                android:text="@string/general_placeholder" />
 
             <TextView
                 android:id="@+id/movie_language_title"
@@ -196,7 +209,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/movie_actors_value"
                 android:layout_marginBottom="5dp"
-                android:text="Língua: "
+                android:text="@string/moviedetails_language"
                 android:textStyle="bold" />
 
             <TextView
@@ -205,7 +218,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/movie_language_title"
                 android:layout_toEndOf="@+id/movie_language_title"
-                android:text="PG-13" />
+                android:text="@string/general_placeholder" />
 
             <TextView
                 android:id="@+id/movie_country_title"
@@ -213,7 +226,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/movie_language_title"
                 android:layout_marginBottom="5dp"
-                android:text="País: "
+                android:text="@string/moviedetails_country"
                 android:textStyle="bold" />
 
             <TextView
@@ -222,7 +235,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/movie_country_title"
                 android:layout_toEndOf="@+id/movie_country_title"
-                android:text="PG-13" />
+                android:text="@string/general_placeholder" />
 
             <TextView
                 android:id="@+id/movie_metascore_title"
@@ -230,7 +243,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/movie_country_title"
                 android:layout_marginBottom="5dp"
-                android:text="Metascore: "
+                android:text="@string/moviedetails_metascore"
                 android:textStyle="bold" />
 
             <TextView
@@ -239,7 +252,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/movie_metascore_title"
                 android:layout_toEndOf="@+id/movie_metascore_title"
-                android:text="PG-13" />
+                android:text="@string/general_placeholder" />
 
             <TextView
                 android:id="@+id/movie_imdbrating_title"
@@ -247,7 +260,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/movie_metascore_title"
                 android:layout_marginBottom="5dp"
-                android:text="Nota IMDB: "
+                android:text="@string/moviedetails_imdbrating"
                 android:textStyle="bold" />
 
             <TextView
@@ -256,7 +269,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/movie_imdbrating_title"
                 android:layout_toEndOf="@+id/movie_imdbrating_title"
-                android:text="PG-13" />
+                android:text="@string/general_placeholder" />
 
             <TextView
                 android:id="@+id/movie_plot_title"
@@ -264,7 +277,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/movie_imdbrating_title"
                 android:layout_marginBottom="5dp"
-                android:text="Sinopse: "
+                android:text="@string/moviedetails_plot"
                 android:textStyle="bold" />
 
             <TextView
@@ -272,8 +285,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/movie_plot_title"
-                android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." />
-
+                android:text="@string/general_placeholder"/>
         </RelativeLayout>
 
     </LinearLayout>

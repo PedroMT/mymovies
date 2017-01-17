@@ -1,5 +1,67 @@
 <resources>
-    <string name="app_name">MyMovies</string>
+    <string name="app_name">MyMovieList</string>
     <string name="title_activity_search">SearchActivity</string>
     <string name="title_activity_my_list">MyListActivity</string>
+    <string name="title_activity_movie_details">MovieDetailsActivity</string>
+
+    <string name="general_placeholder">Placeholder</string>
+    <string name="general_yes">Sim</string>
+    <string name="general_no">Não</string>
+    <string name="general_confirm">Confirmar</string>
+    <string name="general_cancel">Cancelar</string>
+    <string name="general_warning">Aviso</string>
+    <string name="general_searching">Pesquisando, aguarde…</string>
+    <string name="general_insertingmovie">Adicionando filme à lista…</string>
+    <string name="general_addedsuccesfully">Filme adicionado com sucesso!</string>
+
+    <string name="snackbar_unknown_error">Erro desconhecido.</string>
+    <string name="snackbar_connectionfailure_error">Falha na conexão, tente novamente.</string>
+    <string name="snackbar_serviceunavailable_error">Serviço indisponível no momento.</string>
+    <string name="snackbar_toomanyresults_error">A busca não suporta o número de resultados, por favor seja mais específico.</string>
+    <string name="snackbar_movienotfound_error">Filme não encontrado.</string>
+
+    <string name="main_title">MyMovieList</string>
+    <string name="main_button_mylist">Minha Lista</string>
+    <string name="main_button_searchmovies">Pesquisar Filmes</string>
+
+    <string name="search_title">Buscar Filmes</string>
+    <string name="search_searchbox_hint">Digite o nome do filme.</string>
+    <string name="search_dialog_content">Tem certeza que deseja adicionar o filme à sua lista?</string>
+
+    <string name="mylist_title">Minha Lista</string>
+
+    <string name="moviedetails_title">Detalhes do Filme</string>
+    <string name="moviedetails_dialog_content">Tem certeza que deseja deletar o filme da sua lista?</string>
+    <string name="moviedetails_poster_hint">Poster do Filme</string>
+    <string name="moviedetails_year">Ano: </string>
+    <string name="moviedetails_rated">Classificação: </string>
+    <string name="moviedetails_released">Lançamento: </string>
+    <string name="moviedetails_runtime">Duração: </string>
+    <string name="moviedetails_genre">Gênero(s): </string>
+    <string name="moviedetails_director">Diretor: </string>
+    <string name="moviedetails_writer">Roteirista(s): </string>
+    <string name="moviedetails_actors">Atores: </string>
+    <string name="moviedetails_plot">Sinópse: </string>
+    <string name="moviedetails_language">Língua: </string>
+    <string name="moviedetails_country">País: </string>
+    <string name="moviedetails_metascore">Metascore: </string>
+    <string name="moviedetails_imdbrating">Nota IMDB: </string>
+
+    <!--
+    private Integer year;
+    private String rated;
+    private String released;
+    private String runtime;
+    private String genre;
+    private String director;
+    private String writer;
+    private String actors;
+    private String plot;
+    private String language;
+    private String country;
+    private String posterhref;
+    private Integer metascore;
+    private Double imdbRating;
+    private String type;
+    -->
 </resources>

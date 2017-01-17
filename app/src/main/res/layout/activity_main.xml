@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -8,17 +9,17 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@android:color/darker_gray"
-    tools:context="br.com.pmtsouza.mymovies.activities.MainActivity">
+    android:background="@drawable/background"
+    tools:context="br.com.pmtsouza.mymovies.activities.MainActivity"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="48dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:contentDescription="logo"
-        android:src="@drawable/dummy_logo"/>
+        android:src="@drawable/logo"/>
 
     <Button
         android:id="@+id/myList_button"
@@ -27,7 +28,7 @@
         android:layout_height="wrap_content"
         android:text="Minha lista"
         android:textAllCaps="true"
-        android:textColor="@android:color/black"
+        android:textColor="@color/white"
         android:background="@drawable/button_bg"
         android:layout_below="@+id/logo"
         android:layout_centerHorizontal="true" />
@@ -39,7 +40,7 @@
         android:layout_height="wrap_content"
         android:text="Pesquisar filmes"
         android:textAllCaps="true"
-        android:textColor="@android:color/black"
+        android:textColor="@color/white"
         android:background="@drawable/button_bg"
         android:layout_below="@+id/myList_button"
         android:layout_centerHorizontal="true" />

@@ -78,7 +78,7 @@ public class MovieAdapter extends RealmRecyclerViewAdapter<Movie>{
         if(movie.getPosterhref() != null && !movie.getPosterhref().equals("") && !movie.getPosterhref().equals("N/A"))
             Picasso.with(context).load(movie.getPosterhref()).placeholder(R.drawable.broken_link).resize(150,225).into(holder.posterView);
         else{
-            Picasso.with(context).load(R.drawable.broken_link);
+            Picasso.with(context).load(R.drawable.no_poster);
         }
         holder.titleView.setText(movie.getTitle());
 

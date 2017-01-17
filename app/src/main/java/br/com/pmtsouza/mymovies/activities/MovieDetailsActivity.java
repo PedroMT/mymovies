@@ -2,14 +2,18 @@ package br.com.pmtsouza.mymovies.activities;
 
 import android.content.Context;
 import android.media.Image;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.squareup.picasso.Picasso;
 
 import br.com.pmtsouza.mymovies.R;
@@ -74,7 +78,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeButtonEnabled(true);
-            actionBar.setTitle("Detalhes");
+            actionBar.setTitle(getResources().getString(R.string.moviedetails_title));
         }
 
         ButterKnife.bind(this);
@@ -104,6 +108,27 @@ public class MovieDetailsActivity extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 break;
+
+            case R.id.action_delete:
+                new MaterialDialog.Builder(this)
+                        .title(getResources().getString(R.string.general_warning))
+                        .content(getResources().getString(R.string.moviedetails_dialog_content))
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                realm.beginTransaction();
+                                mMovie.deleteFromRealm();
+                                realm.commitTransaction();
+
+                                setResult(1010);
+                                finish();
+                            }
+                        })
+                        .positiveText(getResources().getString(R.string.general_yes))
+                        .negativeText(getResources().getString(R.string.general_no))
+                        .build()
+                        .show();
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -111,8 +136,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private void populateDetails(){
         if(mMovie != null){
             mTitleView.setText(mMovie.getTitle());
-            Picasso.with(mContext).load(mMovie.getPosterhref()).placeholder(R.drawable.broken_link).into(mPosterView);
-            mYearview.setText(String.valueOf(mMovie.getYear()));
+            Picasso.with(mContext).load(mMovie.getPosterhref()).placeholder(R.drawable.broken_link).resize(150,225).into(mPosterView);
+            mYearview.setText(mMovie.getYear() == 0 ? "N/A" : String.valueOf(mMovie.getYear()));
             mRatedView.setText(mMovie.getRated());
             mReleasedView.setText(mMovie.getReleased());
             mRuntimeView.setText(mMovie.getRuntime());
@@ -122,9 +147,16 @@ public class MovieDetailsActivity extends AppCompatActivity {
             mActorsView.setText(mMovie.getActors());
             mLanguageView.setText(mMovie.getLanguage());
             mCountryView.setText(mMovie.getCountry());
-            mMetascoreView.setText(String.valueOf(mMovie.getMetascore()));
-            mImdbratingView.setText(String.valueOf(mMovie.getImdbRating()));
+            mMetascoreView.setText(mMovie.getMetascore() == 0 ? "N/A" : String.valueOf(mMovie.getMetascore()));
+            mImdbratingView.setText(mMovie.getImdbRating() == 0 ? "N/A" : String.valueOf(mMovie.getImdbRating()));
             mPlotView.setText(mMovie.getPlot());
         }
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_movie, menu);
+
+        return true;
+
     }
 }

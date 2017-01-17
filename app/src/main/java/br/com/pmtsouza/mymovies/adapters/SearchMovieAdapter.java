@@ -69,9 +69,9 @@ public class SearchMovieAdapter extends RecyclerView.Adapter<SearchMovieAdapter.
         Movie movie = mAdapter.get(position);
 
         if(movie.getPosterhref() != null && !movie.getPosterhref().equals("") && !movie.getPosterhref().equals("N/A"))
-            Picasso.with(context).load(movie.getPosterhref()).placeholder(R.drawable.broken_link).into(holder.posterView);
+            Picasso.with(context).load(movie.getPosterhref()).placeholder(R.drawable.broken_link).resize(150,225).into(holder.posterView);
         else{
-            Picasso.with(context).load(R.drawable.broken_link);
+            Picasso.with(context).load(R.drawable.no_poster);
         }
         holder.titleView.setText(movie.getTitle());
     }
@@ -85,6 +85,13 @@ public class SearchMovieAdapter extends RecyclerView.Adapter<SearchMovieAdapter.
     public void clearRow(SearchMovieViewHolder smvh) {
         smvh.posterView.setImageDrawable(context.getResources().getDrawable(R.drawable.broken_link));
         smvh.titleView.setText("");
+    }
+
+    public void removeItem(String imdbId){
+        for(int i = 0; i < mAdapter.size(); i++){
+            if(mAdapter.get(i).getImdbID() == imdbId)
+                mAdapter.remove(i);
+        }
     }
 
 }

@@ -68,7 +68,7 @@ public class SearchActivity extends AppCompatActivity implements  SearchMovieAda
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeButtonEnabled(true);
-            actionBar.setTitle("Buscar Filmes");
+            actionBar.setTitle(getResources().getString(R.string.search_title));
         }
 
         ButterKnife.bind(this);
@@ -114,7 +114,7 @@ public class SearchActivity extends AppCompatActivity implements  SearchMovieAda
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 
-        String title = mSearchEditText.getText().toString();
+        String title = mSearchEditText.getText().toString().replaceAll("\\s+$", "");
         if(!title.equals("")){
             new SearchTask(title).execute();
         }
@@ -122,18 +122,17 @@ public class SearchActivity extends AppCompatActivity implements  SearchMovieAda
 
     @Override
     public void onClick(final Movie movie) {
-        //Toast.makeText(mContext, "Filme/Serie: "+movie.getTitle()+" adicionado à sua lista!", Toast.LENGTH_SHORT).show();
         new MaterialDialog.Builder(mContext)
-                .title("Aviso")
-                .content("Tem certeza que deseja adicionar o filme à sua lista?")
+                .title(getResources().getString(R.string.general_warning))
+                .content(getResources().getString(R.string.search_dialog_content))
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         new GetMovieTask(movie.getImdbID()).execute();
                     }
                 })
-                .positiveText("Sim")
-                .negativeText("Não")
+                .positiveText(getResources().getString(R.string.general_yes))
+                .negativeText(getResources().getString(R.string.general_no))
                 .canceledOnTouchOutside(false)
                 .build()
                 .show();
@@ -142,7 +141,7 @@ public class SearchActivity extends AppCompatActivity implements  SearchMovieAda
     private class Wrapper
     {
         public Boolean success = false;
-        public String message = "Erro desconhecido.";
+        public String message = getResources().getString(R.string.snackbar_unknown_error);
         public ArrayList<Movie> mList = null;
     }
 
@@ -159,7 +158,7 @@ public class SearchActivity extends AppCompatActivity implements  SearchMovieAda
             super.onPreExecute();
 
             progressDialog = new ProgressDialog(mContext);
-            progressDialog.setMessage("Pesquisando, aguarde...");
+            progressDialog.setMessage(getResources().getString(R.string.general_searching));
             progressDialog.setCancelable(false);
             progressDialog.show();
         }
@@ -171,7 +170,8 @@ public class SearchActivity extends AppCompatActivity implements  SearchMovieAda
 
             String response = MovieRequest.search(mContext, title, 0);
 
-            if (response.equals("Falha na conexão.")) {
+            if (response.equals(getResources().getString(R.string.snackbar_connectionfailure_error))
+                    || response.equals(getResources().getString(R.string.snackbar_serviceunavailable_error))) {
                 data.success = false;
                 data.message = response;
 
@@ -189,19 +189,23 @@ public class SearchActivity extends AppCompatActivity implements  SearchMovieAda
                             for (int i = 0; i < objects.length(); i++) {
                                 JSONObject movieJSON = objects.getJSONObject(i);
 
-                                Movie movie = new Movie();
-                                movie.setTitle(movieJSON.getString("Title"));
-                                movie.setPosterhref(movieJSON.getString("Poster"));
-                                movie.setImdbID(movieJSON.getString("imdbID"));
+                                Realm realm = Realm.getDefaultInstance();
+                                if(realm.where(Movie.class).equalTo("imdbID", movieJSON.getString("imdbID")).findFirst() == null) {
+                                    Movie movie = new Movie();
+                                    movie.setTitle(movieJSON.getString("Title"));
+                                    movie.setPosterhref(movieJSON.getString("Poster"));
+                                    movie.setImdbID(movieJSON.getString("imdbID"));
 
-                                data.mList.add(movie);
+                                    data.mList.add(movie);
+                                }
+                                realm.close();
                             }
 
                             int totalResults = jsonObject.getInt("totalResults");
-                            if (totalResults > 150) {
+                            if (totalResults > 200) {
 
                                 data.success = false;
-                                data.message = "A busca não suporta o número de resultados, por favor seja mais específico.";
+                                data.message = getResources().getString(R.string.snackbar_toomanyresults_error);
 
                                 return data;
 
@@ -216,11 +220,15 @@ public class SearchActivity extends AppCompatActivity implements  SearchMovieAda
                                 for (int p = 2; p <= totalPages; p++) {
                                     String pagination = MovieRequest.search(mContext, title, p);
 
-                                    if (pagination.equals("Falha na conexão.")) {
+                                    if (pagination.equals(getResources().getString(R.string.snackbar_connectionfailure_error))
+                                        || response.equals(getResources().getString(R.string.snackbar_serviceunavailable_error)))  {
+
                                         data.success = false;
-                                        data.message = response;
+                                        data.message = pagination;
                                         return data;
+
                                     } else {
+
                                         try {
                                             jsonObject = new JSONObject(pagination);
 
@@ -232,12 +240,16 @@ public class SearchActivity extends AppCompatActivity implements  SearchMovieAda
                                                     for (int i = 0; i < objects.length(); i++) {
                                                         JSONObject movieJSON = objects.getJSONObject(i);
 
-                                                        Movie movie = new Movie();
-                                                        movie.setTitle(movieJSON.getString("Title"));
-                                                        movie.setPosterhref(movieJSON.getString("Poster"));
-                                                        movie.setImdbID(movieJSON.getString("imdbID"));
+                                                        Realm realm = Realm.getDefaultInstance();
+                                                        if(realm.where(Movie.class).equalTo("imdbID", movieJSON.getString("imdbID")).findFirst() == null) {
+                                                            Movie movie = new Movie();
+                                                            movie.setTitle(movieJSON.getString("Title"));
+                                                            movie.setPosterhref(movieJSON.getString("Poster"));
+                                                            movie.setImdbID(movieJSON.getString("imdbID"));
 
-                                                        data.mList.add(movie);
+                                                            data.mList.add(movie);
+                                                        }
+                                                        realm.close();
                                                     }
                                                 }
                                             }
@@ -254,7 +266,7 @@ public class SearchActivity extends AppCompatActivity implements  SearchMovieAda
                         }
 
                     } else {
-                        data.message = "Filme não encontrado.";
+                        data.message = getResources().getString(R.string.snackbar_movienotfound_error);
                         return data;
                     }
 
@@ -298,7 +310,7 @@ public class SearchActivity extends AppCompatActivity implements  SearchMovieAda
             super.onPreExecute();
 
             progressDialog = new ProgressDialog(mContext);
-            progressDialog.setMessage("Adicionando filme à lista...");
+            progressDialog.setMessage(getResources().getString(R.string.general_insertingmovie));
             progressDialog.setCancelable(false);
             progressDialog.show();
         }
@@ -310,7 +322,8 @@ public class SearchActivity extends AppCompatActivity implements  SearchMovieAda
 
             String response = MovieRequest.get(mContext, imdbID);
 
-            if (response.equals("Falha na conexão.")) {
+            if (response.equals(getResources().getString(R.string.snackbar_connectionfailure_error))
+                    || response.equals(getResources().getString(R.string.snackbar_serviceunavailable_error))){
                 data.success = false;
                 data.message = response;
 
@@ -321,9 +334,11 @@ public class SearchActivity extends AppCompatActivity implements  SearchMovieAda
 
                     if (jsonObject.getBoolean("Response")) {
 
+
+
                         Movie.create(jsonObject.getString("Title"),
                                 jsonObject.getString("imdbID"),
-                                jsonObject.getInt("Year"),
+                                jsonObject.optInt("Year", 0),
                                 jsonObject.getString("Rated"),
                                 jsonObject.getString("Released"),
                                 jsonObject.getString("Runtime"),
@@ -335,12 +350,12 @@ public class SearchActivity extends AppCompatActivity implements  SearchMovieAda
                                 jsonObject.getString("Language"),
                                 jsonObject.getString("Country"),
                                 jsonObject.getString("Poster"),
-                                jsonObject.getInt("Metascore"),
-                                jsonObject.getDouble("imdbRating"),
+                                jsonObject.optInt("Metascore", 0),
+                                jsonObject.optDouble("imdbRating", 0),
                                 jsonObject.getString("Type"));
 
                         data.success = true;
-                        data.message = "Filme adicionado com sucesso!";
+                        data.message =getResources().getString(R.string.general_addedsuccesfully);
                     }
                 } catch (JSONException e) {
                     return data;
@@ -360,6 +375,7 @@ public class SearchActivity extends AppCompatActivity implements  SearchMovieAda
                 Snackbar snackbar = Snackbar.make(mCoordinatorLayout, data.message, BaseTransientBottomBar.LENGTH_LONG);
                 snackbar.show();
             }else{
+                mAdapter.removeItem(imdbID);
                 mAdapter.notifyDataSetChanged();
                 Snackbar snackbar = Snackbar.make(mCoordinatorLayout, data.message, BaseTransientBottomBar.LENGTH_LONG);
                 snackbar.show();
