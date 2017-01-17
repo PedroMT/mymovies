@@ -83,7 +83,7 @@ public class SearchMovieAdapter extends RecyclerView.Adapter<SearchMovieAdapter.
 
 
     public void clearRow(SearchMovieViewHolder smvh) {
-        smvh.posterView.setImageDrawable(context.getResources().getDrawable(R.drawable.broken_link));
+        smvh.posterView.setImageDrawable(context.getResources().getDrawable(R.drawable.no_poster));
         smvh.titleView.setText("");
     }
 

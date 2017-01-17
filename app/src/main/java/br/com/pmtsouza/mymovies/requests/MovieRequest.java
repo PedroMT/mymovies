@@ -13,7 +13,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import br.com.pmtsouza.mymovies.R;
-import okhttp3.ResponseBody;
 
 /**
  * Created by Pedro M. on 17/01/2017.
@@ -22,9 +21,6 @@ import okhttp3.ResponseBody;
 public class MovieRequest {
 
     public static String search(Context context, String title, int page){
-
-        ResponseBody body = null;
-
         try{
             OkHttpClient client = new OkHttpClient.Builder()
                     .cookieJar(new CookieHandler(context))
@@ -60,8 +56,7 @@ public class MovieRequest {
             Response response = client.newCall(request).execute();
 
             if(response.code() == 200){
-                body = response.body();
-                return body.toString();
+                return response.body().string();
             }else if(response.code() == 503) {
                 return context.getResources().getString(R.string.snackbar_connectionfailure_error);
             }else{
@@ -71,16 +66,10 @@ public class MovieRequest {
         } catch (IOException e) {
             e.printStackTrace();
             return context.getResources().getString(R.string.snackbar_connectionfailure_error);
-        }finally {
-            if(body != null)
-                body.close();
         }
     }
 
     public static String get(Context context, String imdbId){
-
-        ResponseBody body = null;
-
         try{
             OkHttpClient client = new OkHttpClient.Builder()
                     .cookieJar(new CookieHandler(context))
@@ -94,6 +83,7 @@ public class MovieRequest {
                     .addQueryParameter("i", imdbId)
                     .build();
 
+
             Request request = new Request.Builder()
                     .url(url)
                     .addHeader("Accept", "application/json")
@@ -103,8 +93,7 @@ public class MovieRequest {
             Response response = client.newCall(request).execute();
 
             if(response.code() == 200){
-                body = response.body();
-                return body.toString();
+                return response.body().string();
             }else if(response.code() == 503) {
                 return context.getResources().getString(R.string.snackbar_connectionfailure_error);
             }else{
@@ -114,9 +103,6 @@ public class MovieRequest {
         } catch (IOException e) {
             e.printStackTrace();
             return context.getResources().getString(R.string.snackbar_connectionfailure_error);
-        }finally {
-            if(body != null)
-                body.close();
         }
     }
 }

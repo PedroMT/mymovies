@@ -202,7 +202,7 @@ public class SearchActivity extends AppCompatActivity implements  SearchMovieAda
                             }
 
                             int totalResults = jsonObject.getInt("totalResults");
-                            if (totalResults > 200) {
+                            if (totalResults > 50) {
 
                                 data.success = false;
                                 data.message = getResources().getString(R.string.snackbar_toomanyresults_error);
