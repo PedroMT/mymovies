@@ -148,6 +148,7 @@ public class SearchActivity extends AppCompatActivity implements  SearchMovieAda
     public class SearchTask extends AsyncTask<Void, Void, Wrapper> {
 
         private String title;
+        private int totalResults;
 
         SearchTask(String title) {
             this.title = title;
@@ -201,18 +202,14 @@ public class SearchActivity extends AppCompatActivity implements  SearchMovieAda
                                 realm.close();
                             }
 
-                            int totalResults = jsonObject.getInt("totalResults");
-                            if (totalResults > 50) {
-
-                                data.success = false;
-                                data.message = getResources().getString(R.string.snackbar_toomanyresults_error);
-
-                                return data;
-
-                            }else if(totalResults > 10){
+                            totalResults = jsonObject.getInt("totalResults");
+                            if(totalResults > 10){
 
                                 int totalPages;
-                                if (totalResults % 10 == 0)
+                                if (totalResults > 50) {
+                                    totalPages = 5;
+                                    data.message = getString(R.string.snackbar_toomanyresults_message);
+                                }else if (totalResults % 10 == 0)
                                     totalPages = totalResults / 10;
                                 else
                                     totalPages = (totalResults / 10) + 1;
@@ -286,12 +283,17 @@ public class SearchActivity extends AppCompatActivity implements  SearchMovieAda
             progressDialog.dismiss();
 
             if(!data.success){
+                mAdapter.clearList();
+                mAdapter.notifyDataSetChanged();
                 Snackbar snackbar = Snackbar.make(mCoordinatorLayout, data.message, BaseTransientBottomBar.LENGTH_LONG);
                 snackbar.show();
             }else{
                 mAdapter = new SearchMovieAdapter(getApplicationContext(), SearchActivity.this,data.mList);
                 mRecyclerView.setAdapter(mAdapter);
-                mAdapter.notifyDataSetChanged();
+                if(totalResults > 50){
+                    Snackbar snackbar = Snackbar.make(mCoordinatorLayout, data.message, BaseTransientBottomBar.LENGTH_LONG);
+                    snackbar.show();
+                }
             }
 
         }

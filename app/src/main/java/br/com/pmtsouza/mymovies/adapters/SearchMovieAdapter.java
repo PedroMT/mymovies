@@ -94,4 +94,8 @@ public class SearchMovieAdapter extends RecyclerView.Adapter<SearchMovieAdapter.
         }
     }
 
+    public void clearList(){
+        mAdapter.clear();
+    }
+
 }

@@ -17,7 +17,7 @@
     <string name="snackbar_unknown_error">Erro desconhecido.</string>
     <string name="snackbar_connectionfailure_error">Falha na conexão, tente novamente.</string>
     <string name="snackbar_serviceunavailable_error">Serviço indisponível no momento.</string>
-    <string name="snackbar_toomanyresults_error">A busca não suporta o número de resultados, por favor seja mais específico.</string>
+    <string name="snackbar_toomanyresults_message">A busca retornou muitos resultados, serão exibidos somente os 50 primeiros.</string>
     <string name="snackbar_movienotfound_error">Filme não encontrado.</string>
 
     <string name="main_title">MyMovieList</string>
